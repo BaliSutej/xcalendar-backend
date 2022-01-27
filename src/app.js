@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const bodyParser = require("body-parser");
 
+const { calendarController, eventController } = require('./controllers/index.js');
 
 // enable cors 
 app.use(cors());
@@ -11,31 +12,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.get("/xcalendar/calendar/:calendarid",(req,res,next) => {
-    console.log(req.params.calendarid);
-    res.send("ok");
-});
+app.get("/xcalendar/calendar/:calendarid", calendarController.getCalendar);
 
-app.post("/xcalendar/calendar/addcalendar",(req,res,next) => {
-    console.log("Add calendar");
-    console.log(JSON.stringify(req.body));
-    res.send("ok");
-});
+app.post("/xcalendar/calendar/addcalendar", calendarController.addCalendar);
 
-app.get("/xcalendar/events/",(req,res,next) => {
-    console.log("All events");
-    res.send("ok");
-});
+app.get("/xcalendar/events/", eventController.getAllEvents);
+
+app.get("/xcalendar/events/getevent", eventController.getEvent);
+
+app.post("/xcalendar/events/add", eventController.addEvent);
 
 
-app.post("/xcalendar/events/add",(req,res,next) => {
-    console.log("Add event");
-    console.log(JSON.stringify(req.body));
-    res.send("ok");
-});
-
-
-app.post("/xcalendar/user/login",(req,res,next) => {
+app.post("/xcalendar/user/login", (req, res, next) => {
     console.log("Login");
     console.log(JSON.stringify(req.body));
     res.send("ok");
